@@ -17,7 +17,7 @@ use strict;
 use vars qw($VERSION %IRSSI);
 
 %IRSSI = (
-    authors => "Jonathan Warner",
+    authors => "Jonathan Warner, mods by David Evans",
     contact => 'jaxbot@gmail.com',
     name => "pbnotifications.pl",
     description => "PushBullet notifications",
@@ -73,16 +73,16 @@ sub _push {
 sub priv_msg {
     my ($server,$msg,$nick,$address,$target) = @_;
     my %options = ("type" => "note", "title" => "PM", "body" => $nick . ": " . $msg);
-    if (_push(\%options)) {
-        print("Pushed $nick $msg");
+    if (!_push(\%options)) {
+        print("Attempted to push $nick $msg");
     }
 }
 sub hilight {
     my ($dest, $text, $stripped) = @_;
     if ($dest->{level} & MSGLEVEL_HILIGHT) {
         my %options = ("type" => "note", "title" => "Mention", "body" => $stripped);
-        if (_push(\%options)) {
-            print("Pushed $stripped");
+        if (!_push(\%options)) {
+            print("Attempted to push $stripped");
         }
     }
 }
